@@ -43,7 +43,7 @@ def get_args_parser():
     parser = argparse.ArgumentParser('MAE fine-tuning for image classification', add_help=False)
     parser.add_argument('--batch_size', default=64, type=int,
                         help='Batch size per GPU (effective batch size is batch_size * accum_iter * # gpus')
-    parser.add_argument('--epochs', default=5, type=int)   #TODO: check the correct value
+    parser.add_argument('--epochs', default=50, type=int)   #TODO: check the correct value
     parser.add_argument('--accum_iter', default=1, type=int,
                         help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
 
@@ -109,7 +109,7 @@ def get_args_parser():
                         help='How to apply mixup/cutmix params. Per "batch", "pair", or "elem"')
 
     # * Finetuning params
-    parser.add_argument('--finetune', default='./output_dir/checkpoint-4.pth',
+    parser.add_argument('--finetune', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir/checkpoint-4.pth',
                         help='finetune from checkpoint')
     parser.add_argument('--global_pool', action='store_true')
     parser.set_defaults(global_pool=True)
@@ -117,16 +117,16 @@ def get_args_parser():
                         help='Use class token instead of global pool for classification')
 
     # Dataset parameters
-    parser.add_argument('--data_path', default='./Data/', type=str, #TODO:IMAGE FOLDER
+    parser.add_argument('--data_path', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/Data/', type=str, #TODO:IMAGE FOLDER
                         help='dataset path')
-    parser.add_argument('--nb_classes', default=2, type=int,  #TODO:1000
+    parser.add_argument('--nb_classes', default=200, type=int,  #TODO:1000
                         help='number of the classification types')
 
-    parser.add_argument('--output_dir', default='./output_dir',
+    parser.add_argument('--output_dir', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir',
                         help='path where to save, empty for no saving')
-    parser.add_argument('--log_dir', default='./output_dir',
+    parser.add_argument('--log_dir', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir',
                         help='path where to tensorboard log')
-    parser.add_argument('--device', default='cpu',  #TODO:CUDA
+    parser.add_argument('--device', default='cuda',  #TODO:CUDA
                         help='device to use for training / testing')
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--resume', default='',
@@ -138,7 +138,7 @@ def get_args_parser():
                         help='Perform evaluation only')
     parser.add_argument('--dist_eval', action='store_true', default=False,
                         help='Enabling distributed evaluation (recommended during training for faster monitor')
-    parser.add_argument('--num_workers', default=8, type=int) #TODO:10 as default
+    parser.add_argument('--num_workers', default=10, type=int) #TODO:10 as default
     parser.add_argument('--pin_mem', action='store_true',
                         help='Pin CPU memory in DataLoader for more efficient (sometimes) transfer to GPU.')
     parser.add_argument('--no_pin_mem', action='store_false', dest='pin_mem')
