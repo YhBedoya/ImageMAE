@@ -72,7 +72,7 @@ def get_args_parser():
                         help='epochs to warmup LR')
 
     # Dataset parameters
-    parser.add_argument('--data_path', default='./Data/', type=str,  #TODO: data dir
+    parser.add_argument('--data_path', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/Data/', type=str,  #TODO: data dir
                         help='dataset path')
 
     parser.add_argument('--output_dir', default='./output_dir',
