@@ -117,9 +117,9 @@ def get_args_parser():
                         help='Use class token instead of global pool for classification')
 
     # Dataset parameters
-    parser.add_argument('--data_path', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/tiny-imagenet-200/', type=str, #TODO:IMAGE FOLDER
+    parser.add_argument('--data_path', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/Data/', type=str, #TODO:IMAGE FOLDER
                         help='dataset path')
-    parser.add_argument('--nb_classes', default=200, type=int,  #TODO:1000
+    parser.add_argument('--nb_classes', default=10, type=int,  #TODO:1000
                         help='number of the classification types')
 
     parser.add_argument('--output_dir', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir',
