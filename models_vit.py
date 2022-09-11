@@ -21,7 +21,7 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
     """ Vision Transformer with support for global average pooling
     """
     def __init__(self, global_pool=False, **kwargs):
-        super(VisionTransformer, self).__init__(**kwargs, img_size=224) #TODO: 224
+        super(VisionTransformer, self).__init__(**kwargs, img_size=64) #TODO: 224
 
         self.global_pool = global_pool
         if self.global_pool:
