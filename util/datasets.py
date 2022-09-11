@@ -51,7 +51,7 @@ def build_transform(is_train, args):
     # eval transform
     t = []
     if args.input_size <= 64:  #TODO:224
-        crop_pct = 64 / 256    #
+        crop_pct = 64 / 256
     else:
         crop_pct = 1.0
     size = int(args.input_size / crop_pct)

@@ -109,7 +109,7 @@ def get_args_parser():
                         help='How to apply mixup/cutmix params. Per "batch", "pair", or "elem"')
 
     # * Finetuning params
-    parser.add_argument('--finetune', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir/checkpoint-4.pth',
+    parser.add_argument('--finetune', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir/checkpoint.pth',
                         help='finetune from checkpoint')
     parser.add_argument('--global_pool', action='store_true')
     parser.set_defaults(global_pool=True)
@@ -119,7 +119,7 @@ def get_args_parser():
     # Dataset parameters
     parser.add_argument('--data_path', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/Data/', type=str, #TODO:IMAGE FOLDER
                         help='dataset path')
-    parser.add_argument('--nb_classes', default=200, type=int,  #TODO:1000
+    parser.add_argument('--nb_classes', default=10, type=int,  #TODO:1000
                         help='number of the classification types')
 
     parser.add_argument('--output_dir', default='/content/drive/MyDrive/Data Science and Engineering - PoliTo2/Thesis/models/mae-main/output_dir',
@@ -223,7 +223,7 @@ def main(args):
             mixup_alpha=args.mixup, cutmix_alpha=args.cutmix, cutmix_minmax=args.cutmix_minmax,
             prob=args.mixup_prob, switch_prob=args.mixup_switch_prob, mode=args.mixup_mode,
             label_smoothing=args.smoothing, num_classes=args.nb_classes)
-    
+
     model = models_vit.__dict__[args.model](
         num_classes=args.nb_classes,
         drop_path_rate=args.drop_path,
@@ -265,7 +265,7 @@ def main(args):
     print('number of params (M): %.2f' % (n_parameters / 1.e6))
 
     eff_batch_size = args.batch_size * args.accum_iter * misc.get_world_size()
-    
+
     if args.lr is None:  # only base_lr is specified
         args.lr = args.blr * eff_batch_size / 256
 
