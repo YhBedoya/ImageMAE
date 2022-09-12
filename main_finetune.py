@@ -35,7 +35,6 @@ from util.pos_embed import interpolate_pos_embed
 from util.misc import NativeScalerWithGradNormCount as NativeScaler
 
 import models_vit
-import models_mae
 
 from engine_finetune import train_one_epoch, evaluate
 
@@ -49,7 +48,7 @@ def get_args_parser():
                         help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
 
     # Model parameters
-    parser.add_argument('--model', default='mae_vit_large_patch16', type=str, metavar='MODEL',
+    parser.add_argument('--model', default='vit_large_patch16', type=str, metavar='MODEL',
                         help='Name of model to train')
 
     parser.add_argument('--input_size', default=64, type=int, #TODO: imagenet1k is 224, tyni 64
@@ -225,7 +224,7 @@ def main(args):
             prob=args.mixup_prob, switch_prob=args.mixup_switch_prob, mode=args.mixup_mode,
             label_smoothing=args.smoothing, num_classes=args.nb_classes)
 
-    model = models_mae.__dict__[args.model](
+    model = models_vit.__dict__[args.model](
         num_classes=args.nb_classes,
         drop_path_rate=args.drop_path,
         global_pool=args.global_pool,
@@ -233,7 +232,7 @@ def main(args):
 
     if args.finetune and not args.eval:
         checkpoint = torch.load(args.finetune, map_location='cpu')
-        print("-------------------------------------------------------------------------------------------------------------------------------------")
+
         print("Load pre-trained checkpoint from: %s" % args.finetune)
         checkpoint_model = checkpoint['model']
         state_dict = model.state_dict()
@@ -247,7 +246,6 @@ def main(args):
 
         # load pre-trained model
         msg = model.load_state_dict(checkpoint_model, strict=False)
-        print("HERE THE MSG--------------------------------------------------------------------------------------------")
         print(msg)
 
         if args.global_pool:
