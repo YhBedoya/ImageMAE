@@ -69,7 +69,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         if (data_iter_step + 1) % accum_iter == 0:
             optimizer.zero_grad()
 
-        torch.cuda.synchronize()  #TODO: uncomment
+        torch.cuda.synchronize()
 
         metric_logger.update(loss=loss_value)
         min_lr = 10.
@@ -112,22 +112,19 @@ def evaluate(data_loader, model, device):
         target = target.to(device, non_blocking=True)
 
         # compute output
-        with torch.cuda.amp.autocast(): #TODO: uncoment and put this two lines inside
+        with torch.cuda.amp.autocast():
             output = model(images)
             loss = criterion(output, target)
 
-        acc1 = accuracy(output, target, topk=(1,))  #TODO: acc1, acc5 = accuracy(output, target, topk=(1,5))
+        acc1, acc5 = accuracy(output, target, topk=(1, 5))
 
         batch_size = images.shape[0]
         metric_logger.update(loss=loss.item())
-        metric_logger.meters['acc1'].update(acc1[0], n=batch_size)
-        #metric_logger.meters['acc5'].update(acc5.item(), n=batch_size)  #TODO: uncomment
+        metric_logger.meters['acc1'].update(acc1.item(), n=batch_size)
+        metric_logger.meters['acc5'].update(acc5.item(), n=batch_size)
     # gather the stats from all processes
     metric_logger.synchronize_between_processes()
-    #print('* Acc@1 {top1.global_avg:.3f} Acc@5 {top5.global_avg:.3f} loss {losses.global_avg:.3f}'  #TODO: uncomment
-    #      .format(top1=metric_logger.acc1, top5=metric_logger.acc5, losses=metric_logger.loss))
-
-    print('* Acc@1 {top1.global_avg:.3f} loss {losses.global_avg:.3f}'  #TODO: comment
-          .format(top1=metric_logger.acc1, losses=metric_logger.loss))
+    print('* Acc@1 {top1.global_avg:.3f} Acc@5 {top5.global_avg:.3f} loss {losses.global_avg:.3f}'
+          .format(top1=metric_logger.acc1, top5=metric_logger.acc5, losses=metric_logger.loss))
 
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
